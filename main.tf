@@ -1,5 +1,5 @@
 variable "region" {
-  default = "us-west-1"
+  default = "us-west-2"
 }
 
 provider "aws" {
@@ -174,12 +174,22 @@ resource "aws_instance" "jenkins" {
   }
 }
 
-resource "ansible_host" "default" {
+resource "ansible_host" "nginxhost" {
   count              = 1
   inventory_hostname = "${aws_instance.nginxproxy.id}"
 
   vars = {
     ansible_user = "ubuntu"
     ansible_host = "${aws_instance.nginxproxy.public_ip}"
+  }
+}
+
+resource "ansible_host" "jenkinshost" {
+  count              = 1
+  inventory_hostname = "${aws_instance.jenkins.id}"
+
+  vars = {
+    ansible_user = "ubuntu"
+    ansible_host = "${aws_instance.jenkins.public_ip}"
   }
 }
