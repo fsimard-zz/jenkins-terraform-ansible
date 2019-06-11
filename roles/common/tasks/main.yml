@@ -1,0 +1,10 @@
+---
+- name: Disable SELinux
+  selinux:
+    state: disabled
+  notify: "Reboot required"
+
+- name: Intall TAR
+  yum:
+    name: tar.x86_64
+    state: present

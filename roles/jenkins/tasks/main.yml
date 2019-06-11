@@ -1,0 +1,35 @@
+- name: Install JDK
+  import_role: 
+    name: java
+
+- name: Add Jenkins Repo
+  get_url:
+    dest: /etc/yum.repos.d/jenkins.repo
+    url: http://pkg.jenkins-ci.org/redhat/jenkins.repo
+
+- name: Add RPM Key
+  rpm_key:
+    key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+
+- name: Install Jenkins Binaries
+  yum:
+    name: jenkins
+    state: present
+
+- name: Enable Jenkins Service
+  systemd:
+    name: jenkins
+    enabled: true
+    state: started
+  
+- name: Init Admin Password
+  shell: "cat /var/lib/jenkins/secrets/initialAdminPassword"
+  register: foobar
+  retries: 5
+  delay: 10
+  until: foobar is succeeded
+
+- name: Print Init Password
+  debug:
+    var: foobar.stdout
+  when: foobar is succeeded

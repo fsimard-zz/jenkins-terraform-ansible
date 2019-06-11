@@ -66,8 +66,8 @@ resource "aws_route_table_association" "public_route_assoc_b" {
   route_table_id = "${aws_route_table.public_rt.id}"
 }
 
-resource "aws_key_pair" "edgenda_key" {
-    key_name = "ssh_key"
+resource "aws_key_pair" "si_key" {
+    key_name = "si_key"
     public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5u7ZUpjWvShNInKjFrsbqV+I75rY/R9sQwdGHWe48TYm8/OetNczmgxRDGGGHIVfRSvEfJv3+soQZk1YjfaWpIOCm96cLO4m3VWAHI3C1IRBBdetwBDpSoKwweVN3457DMgFlGPj+s7KgA9DiVi3Un0q69G/xexlIdmsZYDGvBSbXpSZSh4AO5Bvi+2/EWbQpaTehVL5CSw93AL/4AdGiEXl9Z5iajab2BZWMN+mkA3TmU4UtjG6fKTw51ntO4fDjZDsekONRVoM2FIUXEs2yxoP3B9ZWmE09+csWcPor782ui7mdD2Hr/E2vKE7MkPYqbFAG6WOLZUcqRFmO/Sz1 spark-user@baseImage"
 }
 
@@ -121,7 +121,7 @@ resource "aws_security_group" "allow_all_out_ipv4" {
 
 resource "aws_instance" "nginxproxy" {
   ami           = "${data.aws_ami.ubuntu.id}"
-  key_name      = "${aws_key_pair.edgenda_key.key_name}"
+  key_name      = "${aws_key_pair.si_key.key_name}"
   instance_type = "t2.micro"
 
   subnet_id                   = "${aws_subnet.subnet_a.id}"
@@ -148,7 +148,7 @@ resource "aws_instance" "nginxproxy" {
 }
 resource "aws_instance" "jenkins" {
   ami           = "${data.aws_ami.ubuntu.id}"
-  key_name      = "${aws_key_pair.edgenda_key.key_name}"
+  key_name      = "${aws_key_pair.si_key.key_name}"
   instance_type = "t2.micro"
 
   subnet_id                   = "${aws_subnet.subnet_b.id}"
