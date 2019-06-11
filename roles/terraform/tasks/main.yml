@@ -1,0 +1,13 @@
+- name: Install Terraform
+  apt:
+    name: terraform
+    state: present
+  become: true
+
+- name: Install Ansible Terraform provider
+  unarchive:
+    remote_src: yes 
+    src: "https://github.com/nbering/terraform-provider-ansible/releases/download/v1.0.3/terraform-provider-ansible-linux_amd64.zip"
+    dest: "~/.terraform.d/plugins/"
+  become: true
+  
