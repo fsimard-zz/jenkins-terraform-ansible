@@ -11,3 +11,11 @@
       name: java
   - import_role:
       name: jenkins
+- name : Install Docker
+  hosts: jenkinshosts
+  become: true
+  tasks:
+      - import_role:
+            name: docker
+      - import_role:
+            name: docker-registry

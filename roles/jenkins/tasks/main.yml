@@ -28,14 +28,3 @@
     state: started
   become: true
   
-- name: Init Admin Password
-  shell: "cat /var/lib/jenkins/secrets/initialAdminPassword"
-  register: foobar
-  retries: 5
-  delay: 10
-  until: foobar is succeeded
-
-- name: Print Init Password
-  debug:
-    var: foobar.stdout
-  when: foobar is succeeded

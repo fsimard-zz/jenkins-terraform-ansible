@@ -174,6 +174,11 @@ resource "aws_instance" "jenkins" {
   }
 }
 
+resource "aws_eip" "lb" {
+  instance = "${aws_instance.jenkins.id}"
+  vpc      = true
+}
+
 resource "ansible_host" "nginxhost" {
   count              = 1
   inventory_hostname = "${aws_instance.nginxproxy.id}"
