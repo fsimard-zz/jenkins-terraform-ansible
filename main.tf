@@ -124,7 +124,7 @@ resource "aws_instance" "nginxproxy" {
   key_name      = "${aws_key_pair.edgenda_key.key_name}"
   instance_type = "t2.micro"
 
-  subnet_id                   = "aws_subnet.subnet_a.id"
+  subnet_id                   = "${aws_subnet.subnet_a.id}"
   associate_public_ip_address = "true"
 
   vpc_security_group_ids = [
@@ -151,7 +151,7 @@ resource "aws_instance" "jenkins" {
   key_name      = "${aws_key_pair.edgenda_key.key_name}"
   instance_type = "t2.micro"
 
-  subnet_id                   = "aws_subnet.subnet_b.id"
+  subnet_id                   = "${aws_subnet.subnet_b.id}"
   associate_public_ip_address = "true"
 
   vpc_security_group_ids = [
@@ -176,10 +176,10 @@ resource "aws_instance" "jenkins" {
 
 resource "ansible_host" "default" {
   count              = 1
-  inventory_hostname = "aws_instance.nginxproxy.id"
+  inventory_hostname = "${aws_instance.nginxproxy.id}"
 
   vars = {
     ansible_user = "ubuntu"
-    ansible_host = "aws_instance.nginxproxy.public_ip"
+    ansible_host = "${aws_instance.nginxproxy.public_ip}"
   }
 }
