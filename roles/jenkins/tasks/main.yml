@@ -3,24 +3,30 @@
     name: java
 
 - name: Add Jenkins Repo
-  get_url:
-    dest: /etc/yum.repos.d/jenkins.repo
-    url: http://pkg.jenkins-ci.org/redhat/jenkins.repo
+  shell: "echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list"
+  become: true
 
-- name: Add RPM Key
-  rpm_key:
-    key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+- name: Add APT Key
+  apt_key:
+    url: https://pkg.jenkins.io/debian/jenkins-ci.org.key
+  become: true
+
+- name: Add Jenkins Repo
+  shell: "apt update"
+  become: true
 
 - name: Install Jenkins Binaries
-  yum:
+  apt:
     name: jenkins
     state: present
+  become: true
 
 - name: Enable Jenkins Service
   systemd:
     name: jenkins
     enabled: true
     state: started
+  become: true
   
 - name: Init Admin Password
   shell: "cat /var/lib/jenkins/secrets/initialAdminPassword"

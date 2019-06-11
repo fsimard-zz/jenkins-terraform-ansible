@@ -1,10 +1,13 @@
 ---
-- name: Disable SELinux
-  selinux:
-    state: disabled
-  notify: "Reboot required"
-
-- name: Intall TAR
-  yum:
-    name: tar.x86_64
+- name: install wget on debian
+  apt:
+    name: wget
     state: present
+  when: ansible_distribution == "Ubuntu"
+  become: true
+- name: install tar on debian
+  apt:
+    name: tar
+    state: present
+  become: true
+  when: ansible_distribution == "Ubuntu"

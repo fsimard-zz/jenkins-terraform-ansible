@@ -177,6 +177,7 @@ resource "aws_instance" "jenkins" {
 resource "ansible_host" "nginxhost" {
   count              = 1
   inventory_hostname = "${aws_instance.nginxproxy.id}"
+  groups = ["nginxhosts"]
 
   vars = {
     ansible_user = "ubuntu"
@@ -187,6 +188,7 @@ resource "ansible_host" "nginxhost" {
 resource "ansible_host" "jenkinshost" {
   count              = 1
   inventory_hostname = "${aws_instance.jenkins.id}"
+  groups = ["jenkinshosts"]
 
   vars = {
     ansible_user = "ubuntu"

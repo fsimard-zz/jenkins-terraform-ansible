@@ -4,7 +4,7 @@
   - import_role:
       name: common
 - name: Install Jenkins
-  hosts: host04
+  hosts: jenkinshosts
   become: true
   tasks:
   - import_role:

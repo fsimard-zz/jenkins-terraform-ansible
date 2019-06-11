@@ -1,4 +1,6 @@
-- name: Install JDK
-  yum:
-    name: java-1.8.0-openjdk
+- name: install openjdk
+  apt:
+    name: default-jdk
     state: present
+  become: true
+  when: ansible_distribution == "Ubuntu"
